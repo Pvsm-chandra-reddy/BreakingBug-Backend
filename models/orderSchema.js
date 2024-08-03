@@ -66,7 +66,7 @@ const orderSchema = new mongoose.Schema({
         },
         seller: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'seller' // This line is okay as it is
+            ref: 'SELLER' // This line is okay as it is
         },
     }],
     paymentInfo: {

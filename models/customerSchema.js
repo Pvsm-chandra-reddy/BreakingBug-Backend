@@ -25,7 +25,7 @@ const customerSchema = new mongoose.Schema({
         price: {
             mrp: {
                 type: Number // Bug1: Changed from String to Number
-                // Comment: The mrp (Maximum Retail Price) should be a Number, not a String
+                    // Comment: The mrp (Maximum Retail Price) should be a Number, not a String
             },
             cost: {
                 type: Number
@@ -69,14 +69,14 @@ const customerSchema = new mongoose.Schema({
         },
         country: {
             type: String // Bug2: Changed from Number to String
-            // Comment: Country should be a String, not a Number
+                // Comment: Country should be a String, not a Number
         },
         pinCode: {
             type: Number,
         },
         phoneNo: {
             type: String // Bug3: Changed from Number to String
-            // Comment: Phone numbers are typically stored as Strings to preserve leading zeros and allow for special characters like '+' for country codes
+                // Comment: Phone numbers are typically stored as Strings to preserve leading zeros and allow for special characters like '+' for country codes
         },
     }
 });

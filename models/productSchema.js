@@ -1,117 +1,59 @@
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
-    buyer: {
-        type: mongoose.Schema.ObjectId,
-        ref: "CUSTOMERS", // Bug: Changed from "customer" to "CUSTOMERS" to match the customer schema
-        required: true,
+const productSchema = new mongoose.Schema({
+    productName: {
+        type: String
     },
-    shippingData: {
-        address: {
-            type: String,
-            required: true,
-        },
-        city: {
-            type: String,
-            required: true,
-        },
-        state: {
-            type: String,
-            required: true,
-        },
-        country: {
-            type: String,
-            required: true,
-        },
-        pinCode: {
-            type: Number,
-        },
-        phoneNo: {
-            type: String, // Bug: Changed from Number to String
-            required: true,
-        },
-    },
-    orderedProducts: [{
-        productName: {
-            type: String
-        },
-        price: {
-            mrp: {
-                type: Number
-            },
-            cost: {
-                type: Number
-            },
-            discountPercent: {
-                type: Number
-            }
-        },
-        subcategory: {
-            type: String, // Bug: Changed from mongoose.Schema.Types.ObjectId to String
-        },
-        productImage: {
-            type: String
-        },
-        category: {
-            type: String
-        },
-        description: {
-            type: String
-        },
-        tagline: {
-            type: String
-        },
-        quantity: {
+    price: {
+        mrp: {
             type: Number
         },
-        seller: {
+        cost: {
+            type: Number
+        },
+        discountPercent: {
+            type: Number
+        }
+    },
+    subcategory: {
+        type: String
+    },
+    productImage: {
+        type: String
+    },
+    category: {
+        type: String
+    },
+    description: {
+        type: String
+    },
+    tagline: {
+        type: String
+    },
+    quantity: {
+        type: Number,
+        default: 45
+    },
+    reviews: [{
+        rating: {
+            type: Number,
+        },
+        comment: {
+            type: String,
+        },
+        reviewer: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'SELLERS' // Bug: Changed from "seller" to "SELLERS" to match the seller schema
+            ref: "CUSTOMERS", // Bug: Ensure the reference matches the customer schema
+        },
+        date: {
+            type: Date,
+            default: Date.now, // Bug: Corrected to Date.now()
         },
     }],
-    paymentInfo: {
-        id: {
-            type: String,
-            required: true,
-        },
-        status: {
-            type: String,
-            required: true,
-        },
+    seller: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'seller',
     },
-    paidAt: {
-        type: Date,
-        required: true,
-    },
-    productsQuantity: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    taxPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    shippingPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    totalPrice: {
-        type: Number,
-        required: true,
-        default: 20,
-    },
-    orderStatus: {
-        type: String,
-        required: true,
-    },
-    deliveredAt: Date,
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+}, { timestamps: true }); // Bug: If you want Mongoose to automatically manage createdAt and updatedAt timestamps for your documents, you should set timestamps to true. Setting it to false disables this feature.
 
-module.exports = mongoose.model("ORDERS", orderSchema); // Bug: Changed from "customer" to "ORDERS" to correctly name the model
+module.exports = mongoose.model("PRODUCTS", productSchema); // Bug: Changed from "product" to "PRODUCTS" to match naming conventions

@@ -2,25 +2,24 @@ const bcrypt = require('bcrypt');
 const Customer = require('../models/customerSchema.js');
 const { createNewToken } = require('../utils/token.js');
 
-const customerRegister = async (req, res) => {
+const customerRegister = async(req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
 
         const customer = new Customer({
             ...req.body,
-            password: hashedPass
+            password: hashedPass,
         });
 
         const existingcustomerByEmail = await Customer.findOne({ email: req.body.email });
 
         if (existingcustomerByEmail) {
             res.send({ message: 'Email already exists' });
-        }
-        else {
+        } else {
             let result = await customer.save();
             result.password = undefined;
-            
+
             const token = createNewToken(result._id)
 
             result = {
@@ -35,7 +34,7 @@ const customerRegister = async (req, res) => {
     }
 };
 
-const customerLogIn = async (req, res) => {
+const customerLogIn = async(req, res) => {
     if (req.body.email && req.body.password) {
         let customer = await Customer.findOne({ email: req.body.email });
         if (!customer) {
@@ -62,13 +61,12 @@ const customerLogIn = async (req, res) => {
     }
 };
 
-const getCartDetail = async (req, res) => {
+const getCartDetail = async(req, res) => {
     try {
         let customer = await Customer.findBy(req.params.id)
         if (customer) {
             res.get(customer.cartDetails);
-        }
-        else {
+        } else {
             res.send({ message: "No customer found" });
         }
     } catch (err) {
@@ -76,11 +74,10 @@ const getCartDetail = async (req, res) => {
     }
 }
 
-const cartUpdate = async (req, res) => {
+const cartUpdate = async(req, res) => {
     try {
 
-        let customer = await Customer.findByIdAndUpdate(req.params.id, req.body,
-            { new: false })
+        let customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: false })
 
         return res.send(customer.cartDetails);
 
