@@ -1,7 +1,37 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const productSchema =  mongoose.Schema(
-    {
+const orderSchema = new mongoose.Schema({
+    buyer: {
+        type: mongoose.Schema.ObjectId,
+        ref: "CUSTOMERS", // Bug: Changed from "customer" to "CUSTOMERS" to match the customer schema
+        required: true,
+    },
+    shippingData: {
+        address: {
+            type: String,
+            required: true,
+        },
+        city: {
+            type: String,
+            required: true,
+        },
+        state: {
+            type: String,
+            required: true,
+        },
+        country: {
+            type: String,
+            required: true,
+        },
+        pinCode: {
+            type: Number,
+        },
+        phoneNo: {
+            type: String, // Bug: Changed from Number to String
+            required: true,
+        },
+    },
+    orderedProducts: [{
         productName: {
             type: String
         },
@@ -17,7 +47,7 @@ const productSchema =  mongoose.Schema(
             }
         },
         subcategory: {
-            type: String
+            type: String, // Bug: Changed from mongoose.Schema.Types.ObjectId to String
         },
         productImage: {
             type: String
@@ -32,31 +62,56 @@ const productSchema =  mongoose.Schema(
             type: String
         },
         quantity: {
-            type: Number,
-            default: 45
+            type: Number
         },
-        reviews: [
-            {
-                rating: {
-                    type: Number,
-                },
-                comment: {
-                    type: String,
-                },
-                reviewer: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "CUSTOMERS",
-                },
-                date: {
-                    type: Date,
-                    default: Date.now,//Bug 2 : here the type is Date so the default value should be the Date.now() but was initially Text which is not correct
-                },
-            },
-        ],
         seller: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'seller',
+            ref: 'SELLERS' // Bug: Changed from "seller" to "SELLERS" to match the seller schema
         },
-    }, { timestamps: true}); //Bug 4 : If you want Mongoose to automatically manage createdAt and updatedAt timestamps for your documents, you should set timestamps to true. Setting it to false disables this feature.
+    }],
+    paymentInfo: {
+        id: {
+            type: String,
+            required: true,
+        },
+        status: {
+            type: String,
+            required: true,
+        },
+    },
+    paidAt: {
+        type: Date,
+        required: true,
+    },
+    productsQuantity: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    taxPrice: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    shippingPrice: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    totalPrice: {
+        type: Number,
+        required: true,
+        default: 20,
+    },
+    orderStatus: {
+        type: String,
+        required: true,
+    },
+    deliveredAt: Date,
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
 
-module.exports = mongoose.model("product", productSchema)//Bug 3 : The correct method to create a model in Mongoose is mongoose.model(), not mongoose.mongoose(). This was likely a typo.
+module.exports = mongoose.model("ORDERS", orderSchema); // Bug: Changed from "customer" to "ORDERS" to correctly name the model

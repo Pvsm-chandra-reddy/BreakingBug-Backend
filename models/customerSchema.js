@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const customerSchema = mongoose.Schema({
+const customerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -81,4 +81,4 @@ const customerSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("CUSTOMERS", customerSchema) // Bug4: Changed from "customer" to "CUSTOMERS" because of the reference in the productSchema .This ensures that the reference is correct and the data is stored correctly
+module.exports = mongoose.model("CUSTOMERS", customerSchema); // Bug4: Changed from "customer" to "CUSTOMERS" because of the reference in the productSchema. This ensures that the reference is correct and the data is stored correctly.

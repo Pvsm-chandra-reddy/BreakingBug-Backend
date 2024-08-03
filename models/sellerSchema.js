@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const sellerSchema = new mongoose.Schema({
     name: {
@@ -25,4 +25,4 @@ const sellerSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("seller", sellerSchema)
+module.exports = mongoose.model("SELLERS", sellerSchema); // Bug: Fixed typo moduleexports to module.exports and changed model name to "SELLERS"
