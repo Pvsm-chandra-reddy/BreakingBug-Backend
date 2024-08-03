@@ -39,6 +39,11 @@ const {
 router.post('/SellerRegister', sellerRegister);
 router.post('/SellerLogin', sellerLogIn);
 
+// router.get('/', (req, res) => {
+//     res.send("Hello World!");
+// });
+
+
 // Product
 router.post('/ProductCreate', authMiddleware, productCreate); // Bug 3: Missing authentication middleware
 router.get('/getSellerProducts/:id', authMiddleware, getSellerProducts);
