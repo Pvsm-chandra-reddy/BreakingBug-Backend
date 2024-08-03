@@ -3,7 +3,7 @@ const authMiddleware = require('../middleware/authMiddleware.js');
 
 const {
     sellerRegister,
-    sellerLogIn
+    sellerLogIn,
 } = require('../controllers/sellerController.js'); // Bug 1: Incorrect controller import
 
 const {

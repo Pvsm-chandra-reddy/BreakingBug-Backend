@@ -4,6 +4,12 @@ const { createNewToken } = require('../utils/token.js');
 
 const sellerRegister = async(req, res) => {
     try {
+        password = req.body.password;
+
+        if (!password) {
+            return res.status(400).json({ message: 'Password is required' });
+        } /*  just a request to check wether password is existing or not*/
+
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
 
@@ -30,11 +36,12 @@ const sellerRegister = async(req, res) => {
                 token: token
             };
 
-            console.log(result);
 
-            res.status(201).json(result);
+
+            res.send(result);
         }
     } catch (err) {
+
         res.status(500).json(err);
     }
 };
@@ -51,7 +58,7 @@ const sellerLogIn = async(req, res) => {
 
                 seller = {
                     ...seller._doc,
-                    token: tokens
+                    token: token /*bug : changed the word from token to tokens*/
                 };
 
                 res.send(seller);
